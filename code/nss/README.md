@@ -3,10 +3,27 @@
 ## Overview
 The India Data Lab Initiative (IDLI) harmonizes India’s flagship household and firm surveys so researchers can work with consistent, analysis-ready microdata. By standardizing layouts, reconciling evolving classification systems, and validating outputs against official benchmarks, the lab lowers the fixed cost of using datasets such as the National Sample Surveys (NSS) and the Annual Survey of Industries (ASI).
 
+This repository provides a standardized, reproducible Stata-based pipeline for processing and cleaning publicly available NSS labour, NSS consumption, NSS enterprise and ASI datasets. The goal of this project is to make high-quality, fully cleaned, analysis-ready datasets easily accessible to:
+
+- Researchers  
+- Academicians  
+- Policy analysts    
+- Students and data users  
+
+The scripts convert publicly available raw data into consistent, harmonized, clean `.dta` and `.csv` outputs, ensuring that users can directly begin analysis without spending time on data wrangling.
+
 ## Repository layout
 - `code/asi/` – Stata workflows to clean ASI state-by-industry panels and produce validation graphics (for example, `clean_asi_nic3xstate.do` and `validation_graphs.do`).【F:code/asi/clean_asi_nic3xstate.do†L1-L44】【F:code/asi/validation_graphs.do†L1-L30】
 - `code/nss/` – Harmonization pipelines for NSS consumption, labor, and enterprise surveys along with shared resources such as district concordances.【F:code/nss/nss_cons/00_master_nss_cons.do†L1-L13】【F:code/nss/nss_lab/00_master_nss_lab.do†L1-L12】【F:code/nss/district_concordance/nss_lab_ent_dist_merge.do†L1-L34】
 - `documentation/` – Supporting materials referenced by the scripts (for example, district concordance workbooks consumed by `nss_lab_ent_dist_merge.do`).【F:code/nss/district_concordance/nss_lab_ent_dist_merge.do†L5-L24】
+
+## Repository Structure
+The entire code base for the project is maintained on GitHub. The following is the folder structure we followed.  
+
+GitHub --> idli_ext --> code --> nss --> nss_lab 
+
+Master do-files run the entire workflow.  
+Individual scripts may be executed for validation, **but must not be altered**.
 
 ## Harmonization workflows
 ### NSS surveys
@@ -29,6 +46,56 @@ The ASI cleaning pipeline (`code/asi/clean_asi_nic3xstate.do`) iterates over Exc
 4. **Run the desired master script** – For example, `do code/nss/nss_cons/00_master_nss_cons.do` will call all round-specific cleaners and append routines for the consumption surveys.【F:code/nss/nss_cons/00_master_nss_cons.do†L1-L13】 Monitor the log files (where provided) to verify each block completes.
 5. **Validate outputs** – Use the graphing/diagnostic scripts (`code/asi/validation_graphs.do`, `code/nss/nss_lab/05a_nss_lab_graphs.do`, etc.) to benchmark aggregates before distributing cleaned data.【F:code/asi/validation_graphs.do†L1-L30】【F:code/nss/nss_lab/00_master_nss_lab.do†L1-L35】
 
+All required Stata packages — including `gtools`, `reghdfe`, `grstyle`, `palettes`, `distinct`, `ftools`, `mipolate`, `nicelabels`, and others — are automatically checked and installed in the script.  
+
+Users may install additional packages locally, **but project scripts should remain unchanged.**
+
+## Important Usage Notes
+
+**Do NOT modify any script**.
+Editing the .do files will break consistency, cause compile errors, and lead to incorrect processing.
+All necessary package installation checks are handled internally.
+Users may install packages locally on their system, but project scripts should not be changed.
+Master do-files must always be run without modification to ensure reproducibility.
+
+## Troubleshooting
+
+1. **Missing Packages**
+If any required package is missing, install it using:
+*ssc install <package-name>*
+
+2. **Path Errors**
+Make sure your system path uses correct formatting:
+Windows:
+*"C:/Users/username/Documents/..."*
+
+Mac:
+*"/Users/username/Documents/..."*
+
+Linux:
+*"/home/username/..."*
+
+3. **Large File Warning**
+
+For large NSS/ASI files, Stata may require:
+*set excelxlsxlargefile on*
+(This is already included in the script.)
+
+## Best Practices
+
+Always use the master do-file for full processing.
+Use individual scripts (e.g. `code\nss\nss_lab\01_variable_clean.do`) only for reviewing logic.
+Never change script structure, variable definitions, or processing rules.
+Store raw and processed data in clearly separated directories.
+
+*This project is maintained by the IDLI research and data engineering team.*
+
+## License
+
+This project uses publicly available NSS and ASI datasets.
+
+Processed datasets and scripts follow IDLI licensing and documentation standards.
+
 ## Team
 - **Ananya Kotia** – Founder and Director  •  [www.ananyakotia.com](https://www.ananyakotia.com)
 - **Bharat Singhal** – Research Associate
@@ -40,5 +107,12 @@ The ASI cleaning pipeline (`code/asi/clean_asi_nic3xstate.do`) iterates over Exc
 1. Fork the repository and create a feature branch.
 2. Run the relevant master script(s) and validation routines to ensure harmonized outputs remain consistent.
 3. Submit a pull request summarizing the methodological change, affected rounds, and validation evidence.
+
+Users may:
+Submit issues
+Suggest enhancements
+Contribute documentation
+
+However, core scripts must not be altered under any circumstances to maintain pipeline integrity.
 
 Private raw data are **not** stored in this repository; only code and documentation needed to reproduce the harmonized releases are included.
