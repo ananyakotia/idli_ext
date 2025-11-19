@@ -99,7 +99,7 @@ else if "${root}" == "/Users/nailafatima/Library/CloudStorage/Dropbox" {
 }
 else if "${root}" == "C:/Users/ayush/Dropbox" {
 	global idl "$root/idl"
-	global idl_git "C:\Users\ayush\OneDrive\Documents\idl"
+	global idl_git "C:/Users/ayush/OneDrive/Documents/idli_ext"
 	global nic_concordances "$root/nic_concordances/data/clean"
 }
 
