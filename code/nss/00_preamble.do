@@ -76,14 +76,14 @@ else if "${root}" == "C:/Users/bhara/Dropbox" {
 
 else if "${root}" == "/Users/kotia/Dropbox" {
 	global idl "$root/idl"
-	global idl_git "Users/kotia/Documents/Github/idl"
+	global idl_git "Users/kotia/Documents/Github/idli_ext"
 	global nic_concordances "$root/nic_concordances/data/clean"
 }
 
 else if "${root}" == "C:/Users/NAILA FATIMA" {
    	global idl "$root/Dropbox/idl"
 	global ida "$root/Dropbox/india_labor"
-	global idl_git "$root/Documents/GitHub/idl"
+	global idl_git "$root/Documents/GitHub/idli_ext"
 	global nic_concordances "$root/Dropbox/nic_concordances/data/clean"
 	global asi_state_nic "$root/Dropbox/ASI state x nic3"
 
@@ -92,7 +92,7 @@ else if "${root}" == "C:/Users/NAILA FATIMA" {
 else if "${root}" == "/Users/nailafatima/Library/CloudStorage/Dropbox" {
    	global idl "$root/idl"
 	global ida "$root/india_labor"
-	global idl_git "/Users/nailafatima/Documents/GitHub/idl"
+	global idl_git "/Users/nailafatima/Documents/GitHub/idli_ext"
 	global nic_concordances "$root/nic_concordances/data/clean"
 	global asi_state_nic "$root/ASI state x nic3"
 
@@ -105,7 +105,7 @@ else if "${root}" == "C:/Users/ayush/Dropbox" {
 
 else if "${root}" == "C:\Users\Meghana\Dropbox" {
 	global idl "$root\idl"
-	global idl_git "C:\Users\Meghana\OneDrive\Documents\GitHub\idl"
+	global idl_git "C:\Users\Meghana\OneDrive\Documents\GitHub\idli_ext"
 	global nic_concordances "$root\nic_concordances\data\clean"
 }
 
