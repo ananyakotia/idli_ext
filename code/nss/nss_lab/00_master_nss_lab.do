@@ -40,8 +40,4 @@ do "$code/nss/nss_lab/03_consistent_industry_codes.do"
 * CONSISTENT OCCUPATION CODES 
 do "$code/nss/nss_lab/04_consistent_occupation_codes.do"
 
-* Check for missing obs and create graphs for key variables to check for consistency. 
-do "$code/nss/nss_lab/05a_nss_lab_graphs.do"
-
-do "$code/nss/nss_lab/05b_nss_lab_graphs.do"
 
