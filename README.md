@@ -3,7 +3,7 @@
 ## Overview
 The India Data Lab Initiative (IDLI) harmonizes India’s flagship household and firm surveys so researchers can work with consistent, analysis-ready microdata. By standardizing layouts, reconciling evolving classification systems, and validating outputs against official benchmarks, the lab lowers the fixed cost of using datasets such as the National Sample Surveys (NSS) and the Annual Survey of Industries (ASI).{**ASI Datasets coming soon**}
 
-This repository provides a standardized, reproducible Stata-based pipeline for processing and cleaning publicly available NSS labour, NSS consumption, NSS enterprise and ASI datasets. The goal of this project is to make high-quality, fully cleaned, analysis-ready datasets easily accessible to:
+This repository provides a standardized, reproducible Stata-based pipeline for processing and cleaning publicly available NSS labour, NSS consumption, NSS enterprise and ASI datasets.{**NSS consumption, NSS enterprise and ASI datasets are coming soon**} The goal of this project is to make high-quality, fully cleaned, analysis-ready datasets easily accessible to:
 
 - Researchers  
 - Academicians  
@@ -83,7 +83,7 @@ This will:
 4. Validate outputs and export .dta and .csv files into the output folder
 
 ## Check outputs
-After the master run completes, go to your output folder (value of $NSS_OUT) and verify files like:
+After the master run completes, go to your output folder (value of `$NSS_OUT`) and verify files like:
 
 nss_labour_1983_clean.dta 
 nss_labour_1987_clean.dta
@@ -108,8 +108,8 @@ GitHub --> idli_ext --> code --> nss --> nss_lab
 
 ## Harmonization workflows
 ### NSS surveys
-1. **Environment setup** – Run `code/nss/00_preamble.do` to configure system paths, toggle package installation, and register shared directories for NSS/ASI processing.【C:code/ss/00_preamble.do†L1-L144】 Update the `global root` candidates or add your own block if your folder structure differs.
-2. **Employment & labor** – Use `code/nss/nss_lab/00_master_nss_lab.do` to process person- and household-level files, derive consistent district/industry/occupation codes, and assemble analysis files and figures.【Ccode/nss/nss_lab/00_master_nss_lab.do†L21-L43】 Downstream scripts in the same folder build shared concordances (`02_nss_consistent_districts.do`, `03_consistent_industry_codes.do`, etc.)
+1. **Environment setup** – Run `code/nss/00_preamble.do` to configure system paths, toggle package installation, and register shared directories for NSS/ASI processing.【C:code/nss/00_preamble..do†L2-L144】 Update the `global root` candidates or add your own block if your folder structure differs.
+2. **Employment & labor** – Use `code/nss/nss_lab/00_master_nss_lab.do` to process person- and household-level files, derive consistent district/industry/occupation codes, and assemble analysis files and figures.【C:code/nss/nss_lab/00_master_nss_lab.do†L21-L43】 Downstream scripts in the same folder build shared concordances (`02_nss_consistent_districts.do`, `03_consistent_industry_codes.do`, etc.)
 
 ## Data & documentation assets
 - District concordance spreadsheets in `documentation/district_concordance/` are imported directly by the Stata code to reconcile NSS labor and enterprise district codes before merging or validation.【C:code/nss/district_concordance/nss_lab_ent_dist_merge.do†L5-L45】
@@ -117,9 +117,9 @@ GitHub --> idli_ext --> code --> nss --> nss_lab
 
 ## Getting started
 1. **Prerequisites** – Stata 17 or later (MP/SE) with access to the proprietary NSS microdata. Some scripts optionally install user-written packages listed in `00_preamble.do`.
-2. **Clone the repository** and place it inside the shared directory referenced by your `global root` (e.g., Dropbox or OneDrive) so the relative paths defined in `00_preamble.do` resolve correctly.【F:code/nss/00_preamble.do†L56-L116】
+2. **Clone the repository** and place it inside the shared directory referenced by your `global root` (e.g., Dropbox or OneDrive) so the relative paths defined in `00_preamble.do` resolve correctly.【C:code/nss/00_preamble.do†L2-L144】
 3. **Configure globals** – Modify `code/nss/00_preamble.do` if your environment differs, then run it from Stata to set `$idl`, `$idl_git`, `$code`, and other macros.
-4. **Run the desired master script** – For example, `do code/nss/nss_cons/00_master_nss_lab.do` will call all round-specific cleaners and append routines for the consumption surveys.【F:code/nss/nss_cons/00_master_nss_lab.do†L21-L43】 Monitor the log files (where provided) to verify each block completes.
+4. **Run the desired master script** – For example, `do code/nss/nss_cons/00_master_nss_lab.do` will call all round-specific cleaners and append routines for the consumption surveys.【C:code/nss/nss_cons/00_master_nss_lab.do†L21-L43】 Monitor the log files (where provided) to verify each block completes.
 
 All required Stata packages — including `gtools`, `reghdfe`, `grstyle`, `palettes`, `distinct`, `ftools`, `mipolate`, `nicelabels`, and others — are automatically checked and installed in the script.
 Users may install additional packages locally, **but project scripts should remain unchanged.**
