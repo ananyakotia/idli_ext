@@ -6,8 +6,8 @@ set more off
 pause on
 set excelxlsxlargefile on
 
-global packages_install = 0
-global packages_update = 0
+global packages_install = 1
+global packages_update = 1
 
 * install Stata packages
 if $packages_install {
@@ -17,7 +17,7 @@ if $packages_install {
 		grstyle ///
 		gtools ///
 		palettes /// for grstyle
-		colrspsace /// for grstyle
+		colrspace /// for grstyle
 		mipolate ///
 		reghdfe ///
 		estout /// 
@@ -25,13 +25,7 @@ if $packages_install {
 		coefplot ///
 		freqindex /// required for matchit
 		grc1leg2 /// graph combine with common legend
-		///sepscatter ///
-		///dseg /// egenmore ///
-		///frameappend ///
-		///freduse ///
-		///grouplabs ///
-		///labvalch3 ///
-		///mat2txt ///
+		nicelabels ///
 		{
 		cap which `package'
 		if _rc ssc install `package', all replace
@@ -76,7 +70,7 @@ if "${root}" == "" {
 
 else if "${root}" == "C:/Users/bhara/Dropbox" {
 	global idl "$root/idl"
-	global idl_git "C:/Users/bhara/OneDrive/Informal_Formal_Report/Documents/Github/idl"
+	global idl_git "C:/Users/bhara/OneDrive/Informal_Formal_Report/Documents/Github/idli_ext"
 	global nic_concordances "$root/nic_concordances/data/clean"
 }
 
