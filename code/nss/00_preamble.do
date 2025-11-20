@@ -28,7 +28,7 @@ if $packages_install {
 		nicelabels ///
 		{
 		cap which `package'
-		if _rc ssc install `package', all replace
+		if _rc ssc install `package', replace
 	}
 	cap which renvars
 	if _rc {
