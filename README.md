@@ -3,7 +3,7 @@
 ## Overview
 The India Data Lab Initiative (IDLI) harmonizes India’s flagship household and firm surveys so researchers can work with consistent, analysis-ready microdata. By standardizing layouts, reconciling evolving classification systems, and validating outputs against official benchmarks, the lab lowers the fixed cost of using datasets such as the National Sample Surveys (NSS) and the Annual Survey of Industries (ASI).
 
-This repository provides a standardized, reproducible Stata-based pipeline for processing and cleaning publicly available NSS labour, NSS consumption, NSS enterprise and ASI datasets.{**NSS consumption, NSS enterprise and ASI datasets are coming soon**} The goal of this project is to make high-quality, fully cleaned, analysis-ready datasets easily accessible to:
+This repository provides a standardized, reproducible Stata-based pipeline for processing and cleaning publicly available NSS labour, NSS consumption, NSS enterprise and ASI datasets.{**ASI, NSS enterprise and NSS consumption datasets which are currently being cleaned and validated will be released soon**}. The goal of this project is to make high-quality, fully cleaned, analysis-ready datasets easily accessible to:
 
 - Researchers  
 - Academicians  
@@ -20,83 +20,85 @@ The scripts convert publicly available raw data into consistent, harmonized, cle
 5. Compatibility across systems — users only update their paths, not the code  
 6. Ensures consistency, reproducibility, and minimal manual intervention
 
-## Repository layout
-NSS_Labor/                                      # Main folder
+## Repository layout for NSS Labour Dataset (1987 – 2011)
 
-├── 00_preamble.do                              # This sets up the coding enviroment to configure paths, install packages, and register shared directories
+This repository titled `idli_ext` contains the full codebase for cleaning, harmonizing, and preparing the NSS Labour datasets for the years **1987 to 2011**.  
 
-├── 00_master_nss_lab.do                        # This is the master script, it runs the entire pipeline
+idli_ext
+└── code
+└── nss
+└── nss_lab
 
-│   Household-level cleaning scripts (HC)       # This includes scripts for cleaning household level NSS labor datasets for years 1987-2011
-│
-│   Person-level cleaning scripts (PC)          # This includes scripts for cleaning personal level NSS labor datasets for years 1987-2011
+Within the `nss_lab` folder, there are multiple do files: 
 
-│   Harmonization scripts                       # This includes scripts for district code harmonization, industry code harmonization, and occupation code harmonization
+1. 00_master_nss_lab.do                         # This is the master script, it runs the entire pipeline
+2. Household-level cleaning scripts(*_hc)       # These are multiple .do files for cleaning household level NSS labor datasets for years 1987-2011
+3. Person-level cleaning scripts (*_pc)         # These are multiple .do files for cleaning personal level NSS labor datasets for years 1987-2011
+4. Harmonization scripts                        # These are multiple .do files for district, industry and occupation code harmonization
 
-│
-└── README.md/                                  
+Additionally, there is: 
 
-**NOTE**: Household-level cleaning scripts (HC) and Person-level cleaning scripts (PC) are for cleaning the microdatasets, as an user you don't need to execute them seperately. The ***Master do-files run the entire workflow.***
+1. A **preamble** file located in the `nss` folder that initializes the coding environment to configure paths, install packages, and register shared directories
+2. A **district concordance** folder in the `nss` folder used for harmonizing district identifiers across survey rounds.
+                                       
+**NOTE**: Household-level cleaning scripts (HC) and Person-level cleaning scripts (PC) are for cleaning the micro datasets, as an user you don't need to execute them separately. The ***Master do-files run the entire workflow.***
 
-**Please note that, similar datasets for ASI (Annual Survey of Industries), NSS (National Sample Surveys) Consumption, and NSS enterprises will be uploaded soon in the IDLI website. The README file gets updated accordingly.**
+**Please note that, similar datasets for ASI (Annual Survey of Industries), NSS (National Sample Surveys) Consumption, and NSS enterprise will be uploaded soon on the IDLI website. The README file will get updated accordingly.**
 
 ## How to Use the Code
-## Download Raw Data
-Raw NSS and ASI datasets (CSV and DTA) are publicly available on the IDLI website. (https://www.idli.dev/)
 
-Download them and store them anywhere (**preferably `Documents` folder**) on your system.
-Run the master do-file in Stata
+### Download Raw Data
 
-Open Stata and run the master script:
+Raw NSS and ASI datasets (CSV and DTA) are publicly available on the MOPSI and IDLI website (https://www.idli.dev/). Download them and store them anywhere (**preferably `Documents` folder**) on your system.
 
-do `00_master_nss_lab.do`
+### Clone `idli_ext` GitHub repository 
+
+Clone the repository and place it inside the shared directory referenced by your `global root` (e.g., Dropbox or OneDrive) so the relative paths defined in `00_preamble.do` resolve correctly.
+
+### Set Your System Path
+
+In the provided preamble script, simply enter **your local system** path ("C:/Users/username\_as\_per\_your\_system" OR "/users/username\_if\_using\_a\_mac\_device/Documents") where the raw datasets are stored.
+
+You DO NOT need to:
+
+- edit code logic  
+- modify global macros  
+- change any processing steps  
+
+Only update the required path location where indicated.
+ 
+### Run the master do-file on Stata
+
+Open Stata and run the master script: do `00_master_nss_lab.do`
 
 This will:
+
 1. Check/install required packages (if enabled in preamble)
 2. Run year-specific household and person cleaning scripts
 3. Apply variable harmonization and code mappings
 4. Validate outputs and export .dta and .csv files into the output folder
 
-## Check outputs
-After the master run completes, go to your output folder (value of `$NSS_OUT`) and verify files like:
+### Check outputs
+After the master run completes, go to your output folder and verify if a `nss_lab_final.dta` dataset is saved. 
 
-nss_labour_1983_clean.dta 
-nss_labour_1987_clean.dta
+Note: District concordance spreadsheet in `documentation/district_concordance/` are imported directly by the Stata code to reconcile NSS labor district codes before merging or validation.
 
-... etc.
-
-## How to run only part of the pipeline
-If you only want to run one round’s person or household cleaning (without running everything), run that specific file:
+### How to run only part of the pipeline
+If you only want to run one round’s person or household cleaning (without running everything), run that specific file after running the preamble:
 
 do `01_1_2007_clean_hc.do`   // household for 2007
 do `01_2_2007_clean_pc.do`   // person for 2007
 
 Important:*Only run individual scripts for inspection or validation. Do not modify them.*
 
-- `code/nss/` – Harmonization pipelines for NSS consumption, labor, and enterprise surveys along with shared resources such as district concordances.【C:code/nss/nss_cons/00_master_nss_lab.do†L21-L43】【C:code/nss/district_concordance/nss_lab_ent_dist_merge.do†L5-L45】
-- `documentation/` – Supporting materials referenced by the scripts (for example, district concordance workbooks consumed by `nss_lab_ent_dist_merge.do`).【C:code/nss/district_concordance/nss_lab_ent_dist_merge.do†L5-L45】
+## Requirements 
+1. Stata 17 or higher
+2. Basic system path defined by the user  
+3. Raw data downloaded from the MOPSI/IDLI website 
+4. Internet connection optional (only for installing missing SSC packages)
 
-The entire code base for the project is maintained on GitHub. The following is the folder structure we followed.  
+All required Stata packages — including `gtools`, `reghdfe`, `grstyle`, `palettes`, `distinct`, `ftools`, `mipolate`, `nicelabels`, and others are automatically checked and installed in the script.
 
-GitHub --> idli_ext --> code --> nss --> nss_lab 
-
-
-## Harmonization workflows
-### NSS surveys
-1. **Environment setup** – Run `code/nss/00_preamble.do` to configure system paths, toggle package installation, and register shared directories for NSS/ASI processing.【C:code/nss/00_preamble..do†L2-L144】 Update the `global root` candidates or add your own block if your folder structure differs.
-2. **Employment & labor** – Use `code/nss/nss_lab/00_master_nss_lab.do` to process person- and household-level files, derive consistent district/industry/occupation codes, and assemble analysis files and figures.【C:code/nss/nss_lab/00_master_nss_lab.do†L21-L43】 Downstream scripts in the same folder build shared concordances (`02_nss_consistent_districts.do`, `03_consistent_industry_codes.do`, etc.)
-
-## Data & documentation assets
-- District concordance spreadsheets in `documentation/district_concordance/` are imported directly by the Stata code to reconcile NSS labor and enterprise district codes before merging or validation.【C:code/nss/district_concordance/nss_lab_ent_dist_merge.do†L5-L45】
-- Additional methodological notes, cleaning logs, and institutional documents live under `documentation/` and can be referenced as needed when adapting the workflows.
-
-## Getting started
-1. **Prerequisites** – Stata 17 or later (MP/SE) with access to the proprietary NSS microdata. Some scripts optionally install user-written packages listed in `00_preamble.do`.
-2. **Clone the repository** and place it inside the shared directory referenced by your `global root` (e.g., Dropbox or OneDrive) so the relative paths defined in `00_preamble.do` resolve correctly.【C:code/nss/00_preamble.do†L2-L144】
-3. **Configure globals** – Modify `code/nss/00_preamble.do` if your environment differs, then run it from Stata to set `$idl`, `$idl_git`, `$code`, and other macros.
-4. **Run the desired master script** – For example, `do code/nss/nss_cons/00_master_nss_lab.do` will call all round-specific cleaners and append routines for the consumption surveys.【C:code/nss/nss_cons/00_master_nss_lab.do†L21-L43】 Monitor the log files (where provided) to verify each block completes.
-
-All required Stata packages — including `gtools`, `reghdfe`, `grstyle`, `palettes`, `distinct`, `ftools`, `mipolate`, `nicelabels`, and others — are automatically checked and installed in the script.
 Users may install additional packages locally, **but project scripts should remain unchanged.**
 
 ## Best practices & rules 
@@ -108,6 +110,7 @@ Users may install additional packages locally, **but project scripts should rema
 If you must change a script for research, make a personal copy and document the changes — but do not commit those changes to the main pipeline.
 
 ## Troubleshooting
+
 1. **Missing Packages**
 If any required package is missing, install it using:
 *ssc install <package-name>*
@@ -115,12 +118,9 @@ eg.`ssc install gtools`, `ssc install reghdfe`, `ssc install nicelabels`
 
 2. **Path Errors**
 Make sure your system path uses correct formatting:
+
 Windows:
 *"C:/Users/username/Documents/..."*
-
-*Note*
-Correct:   C:/Users/Me/NSS_raw/
-Incorrect: C:\Users\Me\NSS_raw\
 
 Mac:
 *"/Users/username/Documents/..."*
@@ -133,31 +133,23 @@ For large NSS/ASI files, Stata may require:
 *set excelxlsxlargefile on*
 (This is already included in the script.)
 
-4. **Outputs not generated**
-Check that:
-`$NSS_RAW` contains correct folders/files
-
-The raw filenames match expected NSS names
-You have write permission in `$NSS_OUT`
-
-
 ## Best Practices
-Always use the master do-file for full processing.
-Use individual scripts (e.g. `code\nss\nss_lab\01_variable_clean.do`) only for reviewing logic.
-Never change script structure, variable definitions, or processing rules.
-Store raw and processed data in clearly separated directories.
+1. Always use the master do-file for full processing.
+2. Use individual scripts (e.g. `code\nss\nss_lab\01_variable_clean.do`) only for reviewing logic.
+3. Never change script structure, variable definitions, or processing rules.
+4. Store raw and processed data in clearly separated directories.
 
 *This project is maintained by the IDLI research and data engineering team.*
 
 ## License
-This project uses publicly available NSS and ASI datasets.
+This project uses publicly available NSS datasets.
 Processed datasets and scripts follow IDLI licensing and documentation standards.
 
 ## Team
 - **Ananya Kotia** – Founder and Director  •  [www.ananyakotia.com](https://www.ananyakotia.com)
 - **Bharat Singhal** – Research Associate
 - **Naila Fatima** – Research Associate (2023–25)
-- **Bommi Reddy Meghana** – Research Manager
+- **Bommi Reddy Meghana Vardhan** – Research Manager
 - **Ayush Chaudhary** – Research Associate
 
 ## Contributing
